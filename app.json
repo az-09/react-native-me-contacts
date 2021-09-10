@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "react-native-me-contacts",
+    "slug": "react-native-me-contacts",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "react-native-me-contacts"
+}
