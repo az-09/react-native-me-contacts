@@ -2,6 +2,7 @@ import React from 'react'
 import { Text } from 'react-native';
 import Container from '../components/Container';
 import Input from '../components/Input';
+import Button from '../components/Button'
 
 const Login = () => {
 
@@ -22,6 +23,10 @@ const Login = () => {
                 value={value} 
                 icon={<Text>ICON</Text>} 
                 iconPosition="right" />
+            
+            <Button title="Submit" loading={true} disabled={true} />
+            <Button title="Click Me" disabled={true} />
+
         </Container>
 
 

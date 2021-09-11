@@ -61,11 +61,8 @@ const styles = StyleSheet.create({
     },
 
     textInput: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        backgroundColor: 'red',
-        flex: 1
+        flex: 1,
+        width: '100%'
     },
 
     error: {
