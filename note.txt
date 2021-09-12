@@ -34,3 +34,27 @@ npm install @react-navigation/native
 10. Register Screen UI. React Native Beginner Project Course.
 https://www.youtube.com/watch?v=8QQnyd273ww
 copy from Login
+
+11. React Native Form Validation. React Native Beginner Project Course
+https://www.youtube.com/watch?v=Zdxq2URKIfo
+
+
+12. Environment Variables. React Native Beginner Project Course
+https://www.youtube.com/watch?v=sYLTPfN_upg
+npm install react-native-dotenv
+
+https://github.com/goatandsheep/react-native-dotenv
+
+babel.config.js
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo'],
+    plugins: [
+      ["module:react-native-dotenv", {
+        "moduleName": "@env",
+        "path": ".env",
+      }]
+    ]
+  };
+};

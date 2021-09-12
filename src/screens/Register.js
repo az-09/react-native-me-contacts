@@ -12,6 +12,7 @@ const Register = () => {
     const { navigate } = useNavigation();
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
+ 
 
     const validateFields = () => {
         if (!form.userName) {
