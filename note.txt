@@ -58,3 +58,13 @@ module.exports = function (api) {
     ]
   };
 };
+
+13. Axios Instance. React Native Beginner Project Course
+https://react-native-async-storage.github.io/async-storage/
+https://react-native-async-storage.github.io/async-storage/docs/install
+
+
+npm start --reset-cache //to reset env
+
+14. Register Users. React Native Beginner Project Course
+https://www.youtube.com/watch?v=TyS8Ee_rHJI

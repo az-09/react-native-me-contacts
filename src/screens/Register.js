@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Text, Image, StyleSheet, View } from 'react-native';
 import Container from '../components/Container';
 import Input from '../components/Input';
@@ -6,16 +6,47 @@ import Button from '../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LOGIN } from '../constants/routeNames';
 import { useNavigation } from '@react-navigation/native';
+import { register } from '../context/actions';
+import { Context } from '../context/Provider';
 
 
 const Register = () => {
     const { navigate } = useNavigation();
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
- 
+    const { authDispatch, authState: { error, loading, data } } = useContext(Context)
 
-    const validateFields = () => {
+    console.log('form:  >>', form)
+
+    const onChange = ({ name, value }) => {
+        setForm({ ...form, [name]: value })
+
+        if (value !== '') {
+            if (name === 'password') {
+              if (value.length < 6) {
+                setErrors((prev) => {
+                  return {...prev, [name]: 'This field needs min 6 characters'};
+                });
+              } else {
+                setErrors((prev) => {
+                  return {...prev, [name]: null};
+                });
+              }
+            } else {
+              setErrors((prev) => {
+                return {...prev, [name]: null};
+              });
+            }
+          } else {
+            setErrors((prev) => {
+              return {...prev, [name]: 'This field is required'};
+            });
+          }
+    }
+
+    const onSubmit = () => {
         if (!form.userName) {
+      
             setErrors(prev => {
                 return { ...prev, userName: 'Please add a username' }
             })
@@ -40,34 +71,14 @@ const Register = () => {
                 return { ...prev, password: 'Please add a password' }
             })
         }
-    }
 
-    const onChange = ({ name, value }) => {
-        setForm({ ...form, [name]: value })
-
-        if (value) {
-            if (name === 'password') {
-                if (value.length < 6) {
-                    setErrors((prev) => {
-                        return { ...prev, [name]: 'This field has to be more than 6 characters' }
-                    })
-                } else {
-
-                    setErrors((prev) => {
-                        return { ...prev, [name]: null }
-                    })
-                }
-
-            }
-        } else {
-            setErrors((prev) => {
-                return { ...prev, [name]: 'This field is required' }
-            })
-        }
-    }
-
-    const onSubmit = () => {
-        validateFields()
+        if (
+            Object.values(form).length === 5 &&
+            Object.values(form).every((item) => item.trim().length > 0) &&
+            Object.values(errors).every((item) => !item)
+          ) {
+            register(form)(authDispatch)
+          }
 
 
     }
@@ -80,8 +91,9 @@ const Register = () => {
             <View>
                 <Text style={styles.title}>Welcome to ME Contacts</Text>
                 <Text style={styles.subTitle}>Create a free account</Text>
-
+               
                 <View style={styles.form}>
+                    {error?.error && <Text>{error.error}</Text>}
                     <Input
                         label="Username"
                         iconPosition="right"
@@ -89,7 +101,7 @@ const Register = () => {
                         onChangeText={(value) => {
                             onChange({ name: 'userName', value })
                         }}
-                        error={errors.userName}
+                        error={errors.userName || error?.username?.[0]}
                     />
 
                     <Input
@@ -99,7 +111,7 @@ const Register = () => {
                         onChangeText={(value) => {
                             onChange({ name: 'firstName', value })
                         }}
-                        error={errors.firstName}
+                        error={errors.firstName|| error?.first_name?.[0]}
                     />
                     <Input
                         label="Last name"
@@ -108,7 +120,7 @@ const Register = () => {
                         onChangeText={(value) => {
                             onChange({ name: 'lastName', value })
                         }}
-                        error={errors.lastName}
+                        error={errors.lastName|| error?.last_name?.[0]}
                     />
                     <Input
                         label="Email"
@@ -117,7 +129,7 @@ const Register = () => {
                         onChangeText={(value) => {
                             onChange({ name: 'email', value })
                         }}
-                        error={errors.email}
+                        error={errors.email|| error?.email?.[0]}
                     />
 
                     <Input
@@ -129,10 +141,10 @@ const Register = () => {
                         onChangeText={(value) => {
                             onChange({ name: 'password', value })
                         }}
-                        error={errors.password}
+                        error={errors.password || error?.password?.[0]}
                     />
 
-                    <Button onPress={onSubmit} color="blue" title="Submit" />
+                    <Button onPress={onSubmit} color="blue" title="Submit" loading={loading} disabled={loading}/>
                     <View style={styles.createSection}>
                         <Text style={styles.infoText}>Already have an account?
                         </Text >

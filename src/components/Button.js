@@ -10,8 +10,9 @@ const Button = ({ color,  title, disabled, loading, onPress }) => {
         }
     
     }
-
+    console.log('disabled', disabled)
     return (
+        
         <TouchableOpacity onPress={onPress} style={[styles.wrapper, { backgroundColor: color ? color : getBackGroundColor() }]}>
             <View style={styles.loaderSection}>
             {loading && <ActivityIndicator color="blue"/>}
